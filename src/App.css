@@ -5,14 +5,20 @@ body {
   line-height: 1.5;
 }
 body, .app {
-  background: white;
+  background: #afbfd8;
+  color: #424242;
 }
 
 /* main page */
 
+main {
+  width: 100%;
+  display: inline-flex;
+}
+
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: #4d6387;
   text-align: center;
 }
 .list-books-title h1 {
@@ -22,6 +28,9 @@ body, .app {
 }
 
 .list-books-content {
+  width: 50%;
+  margin-left: 0;
+  margin-right: auto;
   padding: 0 0 80px;
   flex: 1;
 }
@@ -38,6 +47,7 @@ body, .app {
 
 .bookshelf-title {
   border-bottom: 1px solid #dedede;
+  color: white;
 }
 .bookshelf-books {
   text-align: center;
@@ -53,7 +63,7 @@ body, .app {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #4d6387;
   background-image: url('./icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -122,6 +132,9 @@ body, .app {
 .book {
   width: 140px;
 }
+.books-grid .book:hover {
+  font-size: 1.5em;
+}
 .book-title,
 .book-authors {
   font-size: 0.8em;
@@ -130,12 +143,13 @@ body, .app {
   margin-top: 10px;
 }
 .book-authors {
-  color: #999;
+  color: #5e5d5d;
 }
 
 .book-top {
   position: relative;
   height: 200px;
+  width: 128px;
   display: flex;
   align-items: flex-end;
 }
@@ -147,13 +161,22 @@ body, .app {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: #afbfd8;
   background-image: url('./icons/arrow-drop-down.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+
+.book-shelf-changer:hover {
+  background: #4d6387;
+}
+
+.book-shelf-changer select:focus {
+  border: 5px solid black ;
+}
+
 .book-shelf-changer select {
   width: 100%;
   height: 100%;
@@ -164,6 +187,8 @@ body, .app {
 /* book cover */
 
 .book-cover {
+  width: 128px;
+  height: 193px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
 }
@@ -171,4 +196,41 @@ body, .app {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+/* book preview */
+
+.book-preview {
+  width: 50%;
+  order: 2;
+  max-height: 50%;
+}
+
+.book-info div {
+  font-size: 1.2em;
+}
+
+.book-preview .book {
+  position: fixed;
+  width: auto;
+}
+
+.book-preview h2 {
+  color: white;
+}
+
+.book-preview .book-cover {
+  max-width: 100%;
+}
+
+.book-description {
+  width: 80%;
+  overflow-y: auto;
+  height: 200px;
+}
+
+@media screen and (max-width: 574px) {
+  .book-info div {
+    font-size: 1em;
+  }
 }
