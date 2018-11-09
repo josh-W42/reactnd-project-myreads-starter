@@ -4,7 +4,7 @@ import * as BooksAPI from './BooksAPI'
 class BookSearch extends Component {
 
   state = {
-
+    shelvedBooks: [],
     results: [],
   }
 
@@ -21,7 +21,13 @@ class BookSearch extends Component {
   }
 
   clearResults = () => {
-    this.setState({ results: []});
+    this.setState({ results: [] });
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
+      this.setState({ shelvedBooks: books });
+    })
   }
 
 
@@ -58,15 +64,38 @@ class BookSearch extends Component {
                     <div className="book-top">
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                       <div className="book-shelf-changer">
-                        <select onClick={(e) => {
-                            BooksAPI.update(book, `${e.target.value}`)
-                          }}>
-                          <option value="move" disabled>Move to...</option>
-                          <option value="currentlyReading">Currently Reading</option>
-                          <option value="wantToRead">Want to Read</option>
-                          <option value="read">Read</option>
-                          <option value="none">None</option>
-                        </select>
+                          {
+                            (this.state.shelvedBooks.filter((shelfBook) => shelfBook.id === book.id ).length === 0) ? (
+                              <select onClick={(e) => {
+                                  BooksAPI.update(book, `${e.target.value}`)
+                                }}>
+                                <option value="move" disabled>Move to...</option>
+                                <option value="currentlyReading">Currently Reading</option>
+                                <option value="wantToRead">Want to Read</option>
+                                <option value="read">Read</option>
+                                <option value="none">None</option>
+                              </select>
+                            ) : (
+                              <select onClick={(e) => {
+                                  BooksAPI.update(book, `${e.target.value}`)
+                                }}>
+                                <option value="move" disabled>Move to...</option>
+                                <option selected={(this.state.shelvedBooks.filter(
+                                    (shelfBook) => shelfBook.id === book.id )[0].shelf === "currentlyReading") ?  (true):(false)
+                                  }
+                                  value="currentlyReading">Currently Reading</option>
+                                <option selected={(this.state.shelvedBooks.filter(
+                                    (shelfBook) => shelfBook.id === book.id )[0].shelf === "wantToRead") ?  (true):(false)
+                                  }
+                                  value="wantToRead">Want to Read</option>
+                                <option selected={(this.state.shelvedBooks.filter(
+                                    (shelfBook) => shelfBook.id === book.id )[0].shelf === "read") ?  (true):(false)
+                                  }
+                                   value="read">Read</option>
+                                <option value="none">None</option>
+                              </select>
+                            )
+                          }
                       </div>
                   </div>
                     <div className="book-title">{book.title}</div>
