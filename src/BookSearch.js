@@ -67,32 +67,28 @@ class BookSearch extends Component {
                       <div className="book-shelf-changer">
                           {
                             (this.state.shelvedBooks.filter((shelfBook) => shelfBook.id === book.id ).length === 0) ? (
-                              <select onClick={(e) => {
+                              <select value="None" onClick={(e) => {
                                   BooksAPI.update(book, `${e.target.value}`)
                                 }}>
                                 <option value="move" disabled>Move to...</option>
-                                <option value="currentlyReading">Currently Reading</option>
-                                <option value="wantToRead">Want to Read</option>
-                                <option value="read">Read</option>
-                                <option value="none">None</option>
+                                <option value="Currently Reading">Currently Reading</option>
+                                <option value="Want To Read">Want to Read</option>
+                                <option value="Read">Read</option>
+                                <option value="None">None</option>
                               </select>
                             ) : (
-                              <select onClick={(e) => {
+                              <select
+                                value={
+                                    this.state.shelvedBooks.filter(
+                                      (shelfBook) => shelfBook.id === book.id )[0].shelf
+                                }
+                                onClick={(e) => {
                                   BooksAPI.update(book, `${e.target.value}`)
                                 }}>
-                                <option value="move" disabled>Move to...</option>
-                                <option selected={(this.state.shelvedBooks.filter(
-                                    (shelfBook) => shelfBook.id === book.id )[0].shelf === "currentlyReading") ?  (true):(false)
-                                  }
-                                  value="currentlyReading">Currently Reading</option>
-                                <option selected={(this.state.shelvedBooks.filter(
-                                    (shelfBook) => shelfBook.id === book.id )[0].shelf === "wantToRead") ?  (true):(false)
-                                  }
-                                  value="wantToRead">Want to Read</option>
-                                <option selected={(this.state.shelvedBooks.filter(
-                                    (shelfBook) => shelfBook.id === book.id )[0].shelf === "read") ?  (true):(false)
-                                  }
-                                   value="read">Read</option>
+                                <option value="Move" disabled>Move to...</option>
+                                <option value="currentlyreading">Currently Reading</option>
+                                <option value="wantToRead">Want to Read</option>
+                                <option value="read">Read</option>
                                 <option value="none">None</option>
                               </select>
                             )
