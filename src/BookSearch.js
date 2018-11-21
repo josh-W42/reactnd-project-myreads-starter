@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 class BookSearch extends Component {
 
   state = {
-    shelvedBooks: [],
+    shelvedBooks: this.props.bookShelves,
     results: [],
   }
 
@@ -23,12 +23,6 @@ class BookSearch extends Component {
 
   clearResults = () => {
     this.setState({ results: [] });
-  }
-
-  componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ shelvedBooks: books });
-    })
   }
 
 
@@ -65,34 +59,17 @@ class BookSearch extends Component {
                     <div className="book-top">
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                       <div className="book-shelf-changer">
-                          {
-                            (this.state.shelvedBooks.filter((shelfBook) => shelfBook.id === book.id ).length === 0) ? (
-                              <select value="None" onClick={(e) => {
-                                  BooksAPI.update(book, `${e.target.value}`)
-                                }}>
-                                <option value="move" disabled>Move to...</option>
-                                <option value="Currently Reading">Currently Reading</option>
-                                <option value="Want To Read">Want to Read</option>
-                                <option value="Read">Read</option>
-                                <option value="None">None</option>
-                              </select>
-                            ) : (
-                              <select
-                                value={
-                                    this.state.shelvedBooks.filter(
-                                      (shelfBook) => shelfBook.id === book.id )[0].shelf
-                                }
-                                onClick={(e) => {
-                                  BooksAPI.update(book, `${e.target.value}`)
-                                }}>
-                                <option value="Move" disabled>Move to...</option>
-                                <option value="currentlyreading">Currently Reading</option>
-                                <option value="wantToRead">Want to Read</option>
-                                <option value="read">Read</option>
-                                <option value="none">None</option>
-                              </select>
-                            )
-                          }
+                        <select value={
+                            (this.props.books.filter((shelvedBook) => shelvedBook.id === book.id).length > 0) ? (
+                              this.props.books.filter((shelvedBook) => shelvedBook.id === book.id)[0].shelf
+                            ):("None")
+                          } onChange={(e) => this.props.bookShelfUpdate(e, book) }>
+                          <option value="move" disabled>Move to...</option>
+                          <option value="currentlyReading">Currently Reading</option>
+                          <option value="wantToRead">Want to Read</option>
+                          <option value="read">Read</option>
+                          <option value="None">None</option>
+                        </select>
                       </div>
                   </div>
                     <div className="book-title">{book.title}</div>
