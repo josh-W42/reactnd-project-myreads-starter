@@ -132,9 +132,6 @@ main {
 .book {
   width: 140px;
 }
-.books-grid .book:hover {
-  font-size: 1.5em;
-}
 .book-title,
 .book-authors {
   font-size: 0.8em;
